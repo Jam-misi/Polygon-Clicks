@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Polygon</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url('images/221461.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
+
+    .main-container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .description {
+      font-size: 30px;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #2980b9;
+    }
+
+    svg {
+      width: 500px;
+      height: 500px;
+    }
+
+    polygon {
+      stroke: black;
+      stroke-width: 3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="title">Interactive Polygon</div>
+    <div class="description">
+      <span class="highlight">Change the polygon's color</span> by left-clicking on it and 
+      <span class="highlight">Change the polygon's shape</span> by right-clicking on it.
+    </div>
+
+    <svg id="canvas" width="500" height="500">
+      <polygon id="shape" points="250,150 400,300 250,450 100,300" fill="#3498db"/>
+    </svg>
+  </div>
+
+  <script>
+    const polygon = document.getElementById('shape');
+    const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c'];
+    let colorIndex = 0;
+
+    const shapes = [
+      "250,150 400,300 250,450 100,300",  // Square
+      "250,100 450,400 50,400",          // Triangle
+      "250,100 450,200 400,450 100,450 50,200",  // Pentagon
+      "250,100 450,200 450,400 250,500 50,400 50,200",  // Hexagon
+      "250,50 290,150 400,150 300,230 340,350 250,270 160,350 200,230 100,150 210,150"  // Star
+    ];
+    let shapeIndex = 0;
+
+    polygon.addEventListener('click', function(event) {
+      event.preventDefault();
+      if (event.button !== 2) {
+        colorIndex = (colorIndex + 1) % colors.length;
+        polygon.setAttribute('fill', colors[colorIndex]);
+      }
+    });
+
+    polygon.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+      shapeIndex = (shapeIndex + 1) % shapes.length;
+      polygon.setAttribute('points', shapes[shapeIndex]);
+    });
+
+    document.getElementById('canvas').addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+    });
+  </script>
+
+</body>
+</html>
